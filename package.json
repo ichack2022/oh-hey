@@ -10,14 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vscode-messages.helloWorld"
+    "onCommand:vscode-messages.webexLogin"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "vscode-messages.helloWorld",
-        "title": "Hello World"
+        "command": "vscode-messages.webexLogin",
+        "title": "Webex Login"
       }
     ]
   },
@@ -44,6 +44,10 @@
   },
   "dependencies": {
     "@webex/plugin-meetings": "^1.154.0",
+    "axios": "^0.25.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "node-env-file": "^0.1.8",
     "node-fetch": "^3.2.0",
     "webex": "^1.154.0"
   }
