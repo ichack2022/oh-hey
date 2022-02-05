@@ -8,6 +8,7 @@ export async function get_authors(filename: string, start: number, end: number):
 }
 
 async function blame(filename: string, start: number, end: number): Promise<string> {
+    // setInterval()
     return new Promise(function(resolve, reject) {
         exec(`git blame ${filename} -p -L ${start},${end}`, {
             cwd: filename.substring(0, filename.lastIndexOf("\\")+1),

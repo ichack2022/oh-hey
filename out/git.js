@@ -9,6 +9,7 @@ async function get_authors(filename, start, end) {
 }
 exports.get_authors = get_authors;
 async function blame(filename, start, end) {
+    // setInterval()
     return new Promise(function (resolve, reject) {
         (0, child_process_1.exec)(`git blame ${filename} -p -L ${start},${end}`, {
             cwd: filename.substring(0, filename.lastIndexOf("\\") + 1),
