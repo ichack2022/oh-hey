@@ -3,7 +3,7 @@ import * as express from "express";
 const app = express();
 let access_token: string | undefined = undefined;
 export function getAccessToken(): string | undefined {
-  return access_token
+  return access_token;
 }
 app.get("/", (req: any, res: any) => {
   const options = {

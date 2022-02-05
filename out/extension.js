@@ -12,9 +12,9 @@ function activate(context) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "vscode-messages" is now active!');
-    let codeMessage = vscode.commands.registerCommand('vscode-messages.sendCodeMessage', commands_1.sendCodeMessage);
-    let regularMessage = vscode.commands.registerCommand('vscode-messages.sendRegularMessage', () => {
-        vscode.window.showInformationMessage('Typescript is bad');
+    let codeMessage = vscode.commands.registerCommand("vscode-messages.sendCodeMessage", commands_1.sendCodeMessage);
+    let regularMessage = vscode.commands.registerCommand("vscode-messages.sendRegularMessage", () => {
+        vscode.window.showInformationMessage("Typescript is bad");
     });
     let login = vscode.commands.registerCommand("vscode-messages.webexLogin", () => {
         vscode.window.showInformationMessage("Typescript is good");
