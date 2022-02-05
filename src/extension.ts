@@ -13,13 +13,17 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('vscode-messages.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from vscode-messages!');
+	let codeMessage = vscode.commands.registerCommand('vscode-messages.sendCodeMessage', () => {
+		vscode.window.showInformationMessage('Typescript is good');
 	});
 
-	context.subscriptions.push(disposable);
+	let regularMessage = vscode.commands.registerCommand('vscode-messages.sendRegularMessage', () => {
+		vscode.window.showInformationMessage('Typescript is bad');
+	});
+	console.log("added");
+
+	context.subscriptions.push(codeMessage);
+	context.subscriptions.push(regularMessage);
 }
 
 // this method is called when your extension is deactivated

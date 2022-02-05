@@ -10,14 +10,33 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:vscode-messages.helloWorld"
+        "onCommand:vscode-messages.sendCodeMessage",
+        "onCommand:vscode-messages.sendRegularMessage"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "vscode-messages.helloWorld",
-				"title": "Hello World"
+				"command": "vscode-messages.sendCodeMessage",
+				"title": "Code message"
+			},
+			{
+				"command": "vscode-messages.sendRegularMessage",
+				"title": "Regular message"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "vscode-messages.sendCodeMessage",
+				"key": "ctrl+m",
+				"mac": "cmd+m",
+				"when": "editorHasSelection"
+			},
+			{
+				"command": "vscode-messages.sendRegularMessage",
+				"key": "ctrl+m",
+				"mac": "cmd+m",
+				"when": "!editorHasSelection"
 			}
 		]
 	},
