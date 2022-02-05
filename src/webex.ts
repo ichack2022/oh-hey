@@ -24,20 +24,8 @@ app.get("/", (req: any, res: any) => {
   };
   request(options, (error: any, response: any, body: any) => {
     const json = JSON.parse(body);
-    access_token = json.access_token
-   // console.log(json.access_token);
-    // console.log(json);
-    res.send(`
-    <h1>Success! Feel free to close this :)</h1>
-    <script>
-      console.log("Closing in 3 seconds");
-      setTimeout(() => {
-        window.close()
-      }, 3000);
-    </script>
-    `)
-    app.close();
-  }
+    access_token = json.access_token;
+  });
 });
 function startServer(): void {
   app.listen(8000, function () {
