@@ -1,5 +1,6 @@
 import { LocalStorageService } from "./localStorage";
 import * as vscode from "vscode";
+import { displayMessage } from "./message";
 
 const request = require("request");
 const express = require("express");
@@ -15,6 +16,15 @@ export function getWebex(storageManager: LocalStorageService) {
       access_token: at,
     },
   });
+
+  console.log("listening");
+  webex.messages.listen()
+    .then(() => {
+      console.log('listening to message events');
+      webex.messages.on('created', (event: any) => displayMessage(event, webex));
+      webex.messages.on('deleted', (event: any) => console.log(`Got a message:deleted event:\n${event}`));
+    })
+    .catch((e: any) => console.error(`Unable to register for message events: ${e}`));
 
   console.log("Returning webex with access_token ", at);
   return webex;

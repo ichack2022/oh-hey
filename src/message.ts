@@ -1,11 +1,51 @@
 import * as vscode from "vscode";
 
-const CHARS_PER_LINE = 40;
+const CHARS_PER_LINE = 5;
 export type Priority = "HIGH" | "MEDIUM" | "LOW";
 
+type Message = {
+  author: string,
+  filename: string,
+  lineStart: number,
+  lineEnd: number,
+  message: string,
+  priority: Priority
+};
 
-export function display(text: string, start: number, end: number, priority: Priority) {
+export async function displayMessage(event: any, webex: any) {
+  let message = await parseMessage(event, webex);
+  display(message.filename, message.message, message.lineStart-1, message.lineEnd, message.priority);
+}
+
+async function parseMessage(event: any, webex: any): Promise<Message> {
+  const data = event.data;
+  const rawText: string = data.text;
+  const person = await webex.people.get(event.actorId);
+  const author = person.displayName;
+
+  console.log(rawText, rawText.indexOf("‌"));
+  const msg = rawText.slice(0, rawText.indexOf("‌"));
+  const priority = /Priority: (.*)/.exec(rawText)![1] as Priority;
+  const lines = /Lines: ([0-9]*)-([0-9]*)/.exec(rawText)!;
+  const start = parseInt(lines[1]);
+  const end = parseInt(lines[2]);
+
+  return {
+    author: author,
+    filename: "",
+    lineStart: start,
+    lineEnd: end,
+    message: msg,
+    priority: priority,
+  };
+}
+
+
+function display(filename: string, text: string, start: number, end: number, priority: Priority) {
   let editor = vscode.window.activeTextEditor!;
+  // if (editor.document.fileName !== filename) {
+  //   return;
+  // }
   const lines = splitText(text, end - start + 1);
 
   let column = 0;
