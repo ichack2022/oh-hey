@@ -20,30 +20,42 @@ export async function sendCodeMessage(storeManager: LocalStorageService) {
   let webex = getWebex(storeManager);
   console.log("Got webex while sending message", webex);
 
-  // webex.rooms
-  //   .list({ max: 100 })
-  //   .then((r: any) => console.log("rooms", r.items));
-
   let teams = webex.teams
     .list({ max: 10 })
-    .then((teams: any) => {
+    .then(async (teams: any) => {
       console.log(teams.items);
 
-      return teams.items.filter((team: any) => team.name === "WACC")[0];
+      const teamItems = teams.items.map((team: any) => {
+        return new QuickSelectItem(team.name, "", team.id);
+      });
+
+      console.log(teamItems);
+
+      const selectedTeam = await quickSelectBox("Choose a Team", teamItems);
+      return selectedTeam;
     })
-    .then((team: any) => {
-      console.log("TEAM", team);
-      return webex.teamMemberships.list({ teamId: team.id });
+    .then((teamId: any) => {
+      console.log("TEAM", teamId);
+      return webex.teamMemberships.list({ teamId: teamId });
     })
-    .then((membership: any) => {
+    .then(async (membership: any) => {
       console.log(membership.items);
 
-      return membership.items.filter(
-        (m: any) => m.personEmail === "at619@ic.ac.uk"
-      )[0];
+      const memberItems = membership.items.map((member: any) => {
+        return new QuickSelectItem(
+          member.personDisplayName,
+          member.personEmail,
+          member.personId
+        );
+      });
+
+      return await quickSelectBox(
+        "Choose the Person you want to message",
+        memberItems
+      );
     })
-    .then((person: any) => {
-      console.log("PERSON", person);
+    .then((personId: any) => {
+      console.log("PERSON", personId);
 
       return webex.messages.create({
         markdown: `
@@ -51,31 +63,49 @@ export async function sendCodeMessage(storeManager: LocalStorageService) {
 ${text}
 \`\`\`
               `,
-        toPersonId: person.personId,
+        toPersonId: personId,
       });
     });
 
-  // webex.rooms.create({ title: `My Second Room` }).then((room: any) => {
-  //   console.log("creating a room");
-  //   return Promise.all([
-  //     webex.memberships.create({
-  //       roomId: room.id,
-  //       personEmail: `at619@ic.ac.uk`,
-  //     }),
-  //   ]).then(() => {
-  //     console.log("sending a message");
-
-  //     return webex.messages.create({
-  //       markdown: `
-  //       \`\`\`
-  //         ${text}
-  //       \`\`\`
-  //       `,
-  //       roomId: room.id,
-  //     });
-  //   });
-  // });
-
-  vscode.window.showInformationMessage(`Authors: ${authors}`);
+  vscode.window.showInformationMessage(`The author of this line is: ${authors}`);
   // vscode.window.showInformationMessage(`File: ${path} Text: ${text} from ${start}, ${end}`);
+}
+
+// Gets the input from an input box and returns it
+export async function getInputBox(message: string): Promise<string> {
+  let editor = vscode.window.activeTextEditor;
+  const res = await vscode.window.showInputBox({
+    placeHolder: message,
+    value: editor?.document.getText(editor?.selection),
+  });
+  return res ?? "";
+}
+
+// Takes in a list of Quick Select items and a placeholder, retunrs the chosen Quick Select object
+
+// const items = [
+//     new QuickSelectItem("Alice", "alice@example.com"),
+//     new QuickSelectItem("Bob", "bob@example.com"),
+//     new QuickSelectItem("Charlie", "charlie@example.com"),
+//     new QuickSelectItem("Dave", "dave@example.com"),
+//    ];
+//    const resp3 = await quickSelectBox("Pick one", items);
+export class QuickSelectItem {
+  label: string;
+  description: string;
+  returnObj: any;
+  constructor(label: string, description: string, returnObj: any) {
+    this.label = label;
+    this.description = description;
+    this.returnObj = returnObj;
+  }
+}
+export async function quickSelectBox(
+  message: string,
+  items: QuickSelectItem[]
+): Promise<any> {
+  const res = await vscode.window.showQuickPick(items, {
+    placeHolder: message,
+  });
+  return res?.returnObj!;
 }
