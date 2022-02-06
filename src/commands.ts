@@ -21,22 +21,21 @@ export async function sendCodeMessage(storeManager: LocalStorageService) {
   console.log("Got webex while sending message", webex);
 
 
-  webex.rooms.create({ title: `My Second Room` }).then((room: any) => {
+  webex.rooms.create({ title: `My Third Room` }).then((room: any) => {
     console.log("creating a room");
     return Promise.all([
       webex.memberships.create({
         roomId: room.id,
-        personEmail: `at619@ic.ac.uk`,
+        personEmail: `pb719@ic.ac.uk`,
       }),
     ]).then(() => {
       console.log("sending a message");
 
       return webex.messages.create({
-        markdown: `
-        \`\`\`
-          ${text}
-        \`\`\`
-        `,
+        markdown: 
+`\`\`\`py
+${text}
+\`\`\``,
         roomId: room.id,
       });
     });
