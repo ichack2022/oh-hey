@@ -11,20 +11,26 @@ let webex: any | undefined = undefined;
 
 export function getWebex(storageManager: LocalStorageService) {
   let at = getAccessToken(storageManager);
+  const listening = webex !== undefined;
   webex = Webex.init({
     credentials: {
       access_token: at,
     },
   });
 
-  console.log("listening");
-  webex.messages.listen()
-    .then(() => {
-      console.log('listening to message events');
-      webex.messages.on('created', (event: any) => displayMessage(event, webex));
-      webex.messages.on('deleted', (event: any) => console.log(`Got a message:deleted event:\n${event}`));
-    })
-    .catch((e: any) => console.error(`Unable to register for message events: ${e}`));
+  if (!listening) {
+    console.log("listening");
+    webex.messages.listen()
+      .then(() => {
+        console.log('listening to message events');
+        webex.messages.on('created', (event: any) => {
+          console.log(event);
+          displayMessage(event, webex);
+        });
+        webex.messages.on('deleted', (event: any) => console.log(`Got a message:deleted event:\n${event}`));
+      })
+      .catch((e: any) => console.error(`Unable to register for message events: ${e}`));
+  }
 
   console.log("Returning webex with access_token ", at);
   return webex;
