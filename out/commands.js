@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInputBox = exports.sendCodeMessage = void 0;
+exports.QuickSelectItem = exports.quickSelectBox = exports.getInputBox = exports.sendCodeMessage = void 0;
 const vscode = require("vscode");
 const git_1 = require("./git");
 async function sendCodeMessage() {
@@ -28,4 +28,24 @@ async function getInputBox(message) {
     return res ?? "";
 }
 exports.getInputBox = getInputBox;
+// Takes in a list of Quick Select items and a placeholder, retunrs the chosen Quick Select object
+// const items = [
+//     new QuickSelectItem("Alice", "alice@example.com"),
+//     new QuickSelectItem("Bob", "bob@example.com"),
+//     new QuickSelectItem("Charlie", "charlie@example.com"),
+//     new QuickSelectItem("Dave", "dave@example.com"),
+//    ];
+//    const resp3 = await quickSelectBox("Pick one", items);
+async function quickSelectBox(message, items) {
+    const res = await vscode.window.showQuickPick(items, { placeHolder: message });
+    return res;
+}
+exports.quickSelectBox = quickSelectBox;
+class QuickSelectItem {
+    constructor(label, description) {
+        this.label = label;
+        this.description = description;
+    }
+}
+exports.QuickSelectItem = QuickSelectItem;
 //# sourceMappingURL=commands.js.map

@@ -12,12 +12,20 @@ function activate(context) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "vscode-messages" is now active!');
-    let codeMessage = vscode.commands.registerCommand('vscode-messages.sendCodeMessage', commands_1.sendCodeMessage);
-    let regularMessage = vscode.commands.registerCommand('vscode-messages.sendRegularMessage', async () => {
+    let codeMessage = vscode.commands.registerCommand("vscode-messages.sendCodeMessage", commands_1.sendCodeMessage);
+    let regularMessage = vscode.commands.registerCommand("vscode-messages.sendRegularMessage", async () => {
         // vscode.window.showInformationMessage("Typescript is bad");
-        const resp1 = await (0, commands_1.getInputBox)("Enter you message");
-        const resp2 = await (0, commands_1.getInputBox)("Enter person name");
-        vscode.window.showInformationMessage(resp1 + " | " + resp2);
+        // const resp1 = await getInputBox("Enter you message");
+        // const resp2 = await getInputBox("Enter person name");
+        // vscode.window.showInformationMessage(resp1 + " | " + resp2);
+        // const items = [
+        //  new QuickSelectItem("Alice", "alice@example.com"),
+        //  new QuickSelectItem("Bob", "bob@example.com"),
+        //  new QuickSelectItem("Charlie", "charlie@example.com"),
+        //  new QuickSelectItem("Dave", "dave@example.com"),
+        // ];
+        // const resp3 = await quickSelectBox("Pick one", items);
+        // vscode.window.showInformationMessage(resp3.label);
         // vscode.window.createInputBox();
         // vscode.window.createQuickPick();
     });
