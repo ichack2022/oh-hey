@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendCodeMessage = void 0;
+exports.getInputBox = exports.sendCodeMessage = void 0;
 const vscode = require("vscode");
 const git_1 = require("./git");
 async function sendCodeMessage() {
@@ -18,4 +18,14 @@ async function sendCodeMessage() {
     // vscode.window.showInformationMessage(`File: ${path} Text: ${text} from ${start}, ${end}`);
 }
 exports.sendCodeMessage = sendCodeMessage;
+// Gets the input from an input box and returns it
+async function getInputBox(message) {
+    let editor = vscode.window.activeTextEditor;
+    const res = await vscode.window.showInputBox({
+        placeHolder: message,
+        value: editor?.document.getText(editor?.selection),
+    });
+    return res ?? "";
+}
+exports.getInputBox = getInputBox;
 //# sourceMappingURL=commands.js.map

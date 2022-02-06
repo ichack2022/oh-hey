@@ -1,8 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { sendCodeMessage } from './commands';
+import { getInputBox, sendCodeMessage } from './commands';
 import startServer from './webex';
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -13,8 +14,15 @@ export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "vscode-messages" is now active!');
 
   let codeMessage = vscode.commands.registerCommand('vscode-messages.sendCodeMessage', sendCodeMessage);
-  let regularMessage = vscode.commands.registerCommand('vscode-messages.sendRegularMessage', () => {
-    vscode.window.showInformationMessage('Typescript is bad');
+  let regularMessage = vscode.commands.registerCommand('vscode-messages.sendRegularMessage', async () => {
+    // vscode.window.showInformationMessage("Typescript is bad");
+    const resp1 = await getInputBox("Enter you message");
+    const resp2 = await getInputBox("Enter person name");
+    vscode.window.showInformationMessage(resp1 + " | " + resp2);
+
+
+    // vscode.window.createInputBox();
+    // vscode.window.createQuickPick();
   });
 
   let login = vscode.commands.registerCommand(
