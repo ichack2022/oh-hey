@@ -37,12 +37,17 @@ export function activate(context: vscode.ExtensionContext) {
 
   let codeMessage = vscode.commands.registerCommand(
     "vscode-messages.sendCodeMessage",
-    () => sendCodeMessage(webex)
+    () => sendCodeMessage(storageManager)
+  );
+
+  let logout = vscode.commands.registerCommand("vscode-messages.logOut", () =>
+    storageManager.removeValue("access_token")
   );
 
   context.subscriptions.push(codeMessage);
   context.subscriptions.push(regularMessage);
   context.subscriptions.push(login);
+  context.subscriptions.push(logout);
 }
 
 // this method is called when your extension is deactivated

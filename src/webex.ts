@@ -1,6 +1,5 @@
 import { LocalStorageService } from "./localStorage";
 import * as vscode from "vscode";
-import { access } from "fs/promises";
 
 const request = require("request");
 const express = require("express");
@@ -11,13 +10,11 @@ let webex: any | undefined = undefined;
 
 export function getWebex(storageManager: LocalStorageService) {
   let at = getAccessToken(storageManager);
-  if (webex !== undefined) {
-    webex = Webex.init({
-      credentials: {
-        access_token: at,
-      },
-    });
-  }
+  webex = Webex.init({
+    credentials: {
+      access_token: at,
+    },
+  });
 
   console.log("Returning webex with access_token ", at);
   return webex;

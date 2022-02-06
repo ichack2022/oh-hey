@@ -12,7 +12,8 @@
   "activationEvents": [
     "onCommand:vscode-messages.sendCodeMessage",
     "onCommand:vscode-messages.sendRegularMessage",
-    "onCommand:vscode-messages.webexLogin"
+    "onCommand:vscode-messages.webexLogin",
+    "onCommand:vscode-messages.logOut"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -28,6 +29,10 @@
       {
         "command": "vscode-messages.webexLogin",
         "title": "Login with Cisco Webex"
+      },
+      {
+        "command": "vscode-messages.logOut",
+        "title": "Log out of Cisco Webex"
       }
     ],
     "keybindings": [

@@ -3,7 +3,7 @@ import { get_authors } from "./git";
 import { LocalStorageService } from "./localStorage";
 import { getWebex } from "./webex";
 
-export async function sendCodeMessage(webex: any) {
+export async function sendCodeMessage(storeManager: LocalStorageService) {
   let editor = vscode.window.activeTextEditor;
   if (!editor) {
     return; // No open text editor
@@ -17,7 +17,11 @@ export async function sendCodeMessage(webex: any) {
 
   const authors = await get_authors(path, start, end);
 
-  webex.rooms.create({ title: `My First Room` }).then((room: any) => {
+  let webex = getWebex(storeManager);
+  console.log("Got webex while sending message", webex);
+
+
+  webex.rooms.create({ title: `My Second Room` }).then((room: any) => {
     console.log("creating a room");
     return Promise.all([
       webex.memberships.create({
@@ -30,7 +34,7 @@ export async function sendCodeMessage(webex: any) {
       return webex.messages.create({
         markdown: `
         \`\`\`
-        ${text}
+          ${text}
         \`\`\`
         `,
         roomId: room.id,

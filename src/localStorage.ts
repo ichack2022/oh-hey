@@ -12,4 +12,8 @@ export class LocalStorageService {
   public setValue<T>(key: string, value: T) {
     this.storage.update(key, value);
   }
+
+  public removeValue<T>(key: string) {
+    this.storage.update(key, undefined);
+  }
 }
