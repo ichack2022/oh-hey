@@ -16,8 +16,6 @@ export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "vscode-messages" is now active!');
 
   let regularMessage = vscode.commands.registerCommand("vscode-messages.sendRegularMessage", () => {
-    vscode.window.showInformationMessage("Typescript is bad");
-    recievedRepliesBox();
   });
 
   let consoleLogMessage = vscode.commands.registerCommand("vscode-messages.addConsoleLog", addConsoleLog);

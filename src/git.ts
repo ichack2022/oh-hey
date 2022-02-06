@@ -24,11 +24,26 @@ async function blame(
   start: number,
   end: number
 ): Promise<string> {
-  // setInterval()
+  return await asyncExec(
+    `git blame "${filename}" -p -L ${start},${end}`,
+    filename
+  );
+}
+
+export async function getRoot(fileName: string): Promise<string> {
+  return await asyncExec("git rev-parse --show-toplevel", fileName);
+}
+
+function getName(line: string): string {
+  const metadataMatcher = new RegExp(/author (.*)/);
+  const author = metadataMatcher.exec(line)![1];
+  return author;
+}
+
+async function asyncExec(cmd: string, filename: string): Promise<string> {
   return new Promise(function (resolve, reject) {
-    console.log(filename);
     exec(
-      `git blame "${filename}" -p -L ${start},${end}`,
+      cmd,
       {
         cwd: filename.substring(0, filename.lastIndexOf("\\") + 1),
       },
@@ -40,10 +55,4 @@ async function blame(
       }
     );
   });
-}
-
-function getName(line: string): string {
-  const metadataMatcher = new RegExp(/author (.*)/);
-  const author = metadataMatcher.exec(line)![1];
-  return author;
 }
