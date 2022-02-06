@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
+import { recievedRepliesBox } from "./commands";
 
-const CHARS_PER_LINE = 5;
+const CHARS_PER_LINE = 80;
 export type Priority = "HIGH" | "MEDIUM" | "LOW";
 
 type Message = {
@@ -15,6 +16,7 @@ type Message = {
 export async function displayMessage(event: any, webex: any) {
   let message = await parseMessage(event, webex);
   display(message.filename, message.message, message.lineStart-1, message.lineEnd, message.priority);
+  recievedRepliesBox(message.author, message.filename, message.lineStart, message.lineEnd, message.message);
 }
 
 async function parseMessage(event: any, webex: any): Promise<Message> {

@@ -26,14 +26,6 @@ export function activate(context: vscode.ExtensionContext) {
   let login = vscode.commands.registerCommand("vscode-messages.webexLogin", () => {
     webex = getWebex(storageManager);
     vscode.window.showInformationMessage("Succesfully logged in with Cisco Webex!");
-    console.log("listening");
-    webex.messages.listen()
-      .then(() => {
-        console.log('listening to message events');
-        webex.messages.on('created', (event: any) => console.log(`Got a message:created event:\n${event}`));
-        webex.messages.on('deleted', (event: any) => console.log(`Got a message:deleted event:\n${event}`));
-      })
-      .catch((e: any) => console.error(`Unable to register for message events: ${e}`));
   });
 
   let codeMessage = vscode.commands.registerCommand("vscode-messages.sendCodeMessage", () =>

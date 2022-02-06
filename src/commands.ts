@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import { get_authors } from "./git";
 import { LocalStorageService } from "./localStorage";
-import { display } from "./message";
 import { getWebex } from "./webex";
 
 export async function sendCodeMessage(storeManager: LocalStorageService) {
@@ -121,12 +120,13 @@ export async function addConsoleLog() {
  vscode.window.activeTextEditor!.insertSnippet(snippet, insertionLocation);
 }
 
-export async function recievedRepliesBox() {
+export async function recievedRepliesBox(author: string, file: string, start: number, end:number, message: string) {
  vscode.window
-  .showInformationMessage("Message recieved from Alice reagrding 125:file.py ", "View Message", "Cancel")
+  .showInformationMessage(`${author}, ${file}, Lines: ${start}-${end}: ${message}`, "View Message", "Cancel")
   .then((selection) => {
-   if (selection == "View Message") {
-    console.log("Here is the message");
+   if (selection === "View Message") {
+    let editor = vscode.window.activeTextEditor;
+    editor!.revealRange(new vscode.Range(new vscode.Position(start, 0), new vscode.Position(end, 0)), vscode.TextEditorRevealType.InCenter);
    } else {
     console.log("Canceled viewing the message");
    }
