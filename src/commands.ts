@@ -1,16 +1,9 @@
 import * as vscode from "vscode";
 import { get_authors } from "./git";
-import { getAccessToken } from "./webex";
+import { LocalStorageService } from "./localStorage";
+import { getWebex } from "./webex";
 
-const accessToken = getAccessToken();
-const Webex = require(`webex`);
-const webex = Webex.init({
-  credentials: {
-    access_token: accessToken,
-  },
-});
-
-export async function sendCodeMessage() {
+export async function sendCodeMessage(webex: any) {
   let editor = vscode.window.activeTextEditor;
   if (!editor) {
     return; // No open text editor
@@ -24,18 +17,25 @@ export async function sendCodeMessage() {
 
   const authors = await get_authors(path, start, end);
 
-  webex.rooms.create({ title: `My Second Room` }).then((room: any) => {
+  webex.rooms.create({ title: `My First Room` }).then((room: any) => {
+    console.log("creating a room");
     return Promise.all([
       webex.memberships.create({
         roomId: room.id,
-        personEmail: `pranavbansal19@imperial.ac.uk`,
+        personEmail: `at619@ic.ac.uk`,
       }),
-    ]).then(() =>
-      webex.messages.create({
-        markdown: `${text}`,
+    ]).then(() => {
+      console.log("sending a message");
+
+      return webex.messages.create({
+        markdown: `
+        \`\`\`
+        ${text}
+        \`\`\`
+        `,
         roomId: room.id,
-      })
-    );
+      });
+    });
   });
 
   vscode.window.showInformationMessage(`Authors: ${authors}`);
