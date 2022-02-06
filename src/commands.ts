@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { get_authors } from "./git";
 import { LocalStorageService } from "./localStorage";
+import { display } from "./message";
 import { getWebex } from "./webex";
 
 export async function sendCodeMessage(storeManager: LocalStorageService) {
