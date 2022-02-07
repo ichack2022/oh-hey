@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { sendCodeMessage } from "./commands";
-import { addConsoleLog, MyCodeLensProvider, recievedRepliesBox } from "./QuickSelectItem";
+import { addConsoleLog, MyCodeLensProvider, recievedRepliesBox } from "./ui";
 
 import { LocalStorageService } from "./localStorage";
 import { getWebex } from "./webex";

@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { recievedRepliesBox } from "./QuickSelectItem";
+import { recievedRepliesBox } from "./ui";
 
 const CHARS_PER_LINE = 80;
 export type Priority = "HIGH" | "MEDIUM" | "LOW";
