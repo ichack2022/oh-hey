@@ -4,11 +4,7 @@ import { LocalStorageService } from "./localStorage";
 import { getWebex } from "./webex";
 import path = require("path");
 import { getRoot } from "./git";
-import {
-  QuickSelectItem,
-  quickSelectBox,
-  getInputBox,
-} from "./ui";
+import { QuickSelectItem, quickSelectBox, getInputBox } from "./ui";
 
 export async function sendCodeMessage(storeManager: LocalStorageService) {
   let editor = vscode.window.activeTextEditor;
@@ -39,7 +35,7 @@ export async function sendCodeMessage(storeManager: LocalStorageService) {
 
   let webex = getWebex(storeManager);
 
-  let teams = webex.teams
+  webex.teams
     .list({ max: 10 })
     .then(async (teams: any) => {
       console.log(teams.items);
@@ -118,10 +114,9 @@ export async function sendCodeMessage(storeManager: LocalStorageService) {
         ]
       );
 
-      const msg = getInputBox("Write a message", selectedText).then(
-        (msg: any) => {
-          console.log("TEXTMSG: ", msg);
-          const markdown = `
+      getInputBox("Write a message", selectedText).then((msg: any) => {
+        console.log("TEXTMSG: ", msg);
+        const markdown = `
 ${msg}‌
 \`\`\`
 ${text}
@@ -132,34 +127,28 @@ Lines: ${start}-${end}
 Priority: ${priority}
 `;
 
-          var message = {
-            markdown: markdown,
-            toPersonId: personId,
-          };
+        if (personId.id) {
+          return webex.rooms.list({ max: 100 }).then((rooms: any) => {
+            console.log("ALLROOMS", rooms.items);
+            console.log("TITLE", personId.name);
 
-          if (personId.id) {
-            return webex.rooms.list({ max: 100 }).then((rooms: any) => {
-              console.log("ALLROOMS", rooms.items);
-              console.log("TITLE", personId.name);
+            const filteredRooms = rooms.items.filter(
+              (room: any) => room.title === personId.name
+            );
+            console.log("FILTERED ROOMS", filteredRooms);
 
-              const filteredRooms = rooms.items.filter(
-                (room: any) => room.title === personId.name
-              );
-              console.log("FILTERED ROOMS", filteredRooms);
-
-              return webex.messages.create({
-                markdown: markdown,
-                roomId: filteredRooms[0].id,
-              });
+            return webex.messages.create({
+              markdown: markdown,
+              roomId: filteredRooms[0].id,
             });
-          }
-
-          return webex.messages.create({
-            markdown: markdown,
-            toPersonId: personId,
           });
         }
-      );
+
+        return webex.messages.create({
+          markdown: markdown,
+          toPersonId: personId,
+        });
+      });
     })
     .then(() => {
       vscode.window.showInformationMessage("Message Sent!");
