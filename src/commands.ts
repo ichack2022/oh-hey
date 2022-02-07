@@ -8,7 +8,7 @@ import {
   QuickSelectItem,
   quickSelectBox,
   getInputBox,
-} from "./QuickSelectItem";
+} from "./ui";
 
 export async function sendCodeMessage(storeManager: LocalStorageService) {
   let editor = vscode.window.activeTextEditor;
@@ -131,6 +131,12 @@ File: ${projectFile}
 Lines: ${start}-${end}
 Priority: ${priority}
 `;
+
+          var message = {
+            markdown: markdown,
+            toPersonId: personId,
+          };
+
           if (personId.id) {
             return webex.rooms.list({ max: 100 }).then((rooms: any) => {
               console.log("ALLROOMS", rooms.items);
