@@ -1,7 +1,6 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { addConsoleLog, MyCodeLensProvider, recievedRepliesBox, sendCodeMessage } from "./commands";
+import { sendCodeMessage } from "./commands";
+import { addConsoleLog, MyCodeLensProvider, recievedRepliesBox } from "./QuickSelectItem";
 
 import { LocalStorageService } from "./localStorage";
 import { getWebex } from "./webex";

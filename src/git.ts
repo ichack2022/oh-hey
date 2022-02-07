@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 
 //Start and end are lines - this will give a list of all authors
-export async function get_authors(
+export async function getAuthors(
   filename: string,
   start: number,
   end: number
