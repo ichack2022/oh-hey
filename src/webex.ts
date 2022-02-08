@@ -20,16 +20,21 @@ export function getWebex(storageManager: LocalStorageService) {
 
   if (!listening) {
     console.log("listening");
-    webex.messages.listen()
+    webex.messages
+      .listen()
       .then(() => {
-        console.log('listening to message events');
-        webex.messages.on('created', (event: any) => {
+        console.log("listening to message events");
+        webex.messages.on("created", (event: any) => {
           console.log(event);
           displayMessage(event, webex);
         });
-        webex.messages.on('deleted', (event: any) => console.log(`Got a message:deleted event:\n${event}`));
+        webex.messages.on("deleted", (event: any) =>
+          console.log(`Got a message:deleted event:\n${event}`)
+        );
       })
-      .catch((e: any) => console.error(`Unable to register for message events: ${e}`));
+      .catch((e: any) =>
+        console.error(`Unable to register for message events: ${e}`)
+      );
   }
 
   console.log("Returning webex with access_token ", at);
@@ -39,16 +44,16 @@ export function getWebex(storageManager: LocalStorageService) {
 function getAccessToken(storageManager: LocalStorageService): string {
   let accessToken: string = storageManager.getValue("access_token");
 
+  const authorizationURL =
+    "https://webexapis.com/v1/authorize?client_id=C8609770741382a6add794423a26f06154db2ae0f6e256b6c33a8a873d7ddc0c1&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000&scope=spark-admin%3Aworkspaces_write%20spark%3Acalls_write%20spark-admin%3Aresource_groups_read%20spark%3Aall%20spark%3Akms%20Identity%3Aone_time_password%20spark-admin%3Aroles_read%20identity%3Atokens_write%20identity%3Atokens_read&state=set_state_here";
+  const authenticationURL = "https://api.ciscospark.com/v1/access_token";
+
   if (accessToken === null) {
-    vscode.env.openExternal(
-      vscode.Uri.parse(
-        "https://webexapis.com/v1/authorize?client_id=C8609770741382a6add794423a26f06154db2ae0f6e256b6c33a8a873d7ddc0c1&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000&scope=spark-admin%3Aworkspaces_write%20spark%3Acalls_write%20spark-admin%3Aresource_groups_read%20spark%3Aall%20spark%3Akms%20Identity%3Aone_time_password%20spark-admin%3Aroles_read%20identity%3Atokens_write%20identity%3Atokens_read&state=set_state_here"
-      )
-    );
-    app.get("/", (req: any, res: any) => {
+    vscode.env.openExternal(vscode.Uri.parse(authorizationURL));
+    app.get("/", async (req: any, res: any) => {
       const options = {
         method: "POST",
-        url: "https://api.ciscospark.com/v1/access_token",
+        url: authenticationURL,
         headers: {
           "content-type": "application/x-www-form-urlencoded",
         },
