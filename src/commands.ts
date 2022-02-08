@@ -5,6 +5,7 @@ import { getWebex } from "./webex";
 import path = require("path");
 import { getRoot } from "./git";
 import { QuickSelectItem, quickSelectBox, getInputBox } from "./ui";
+import webexAuth from "./auth-provider";
 
 export async function sendCodeMessage(storeManager: LocalStorageService) {
   let editor = vscode.window.activeTextEditor;
@@ -33,7 +34,7 @@ export async function sendCodeMessage(storeManager: LocalStorageService) {
     `The author of this line is: ${authors}`
   );
 
-  let webex = getWebex(storeManager);
+  let webex = getWebex(storeManager, webexAuth);
 
   webex.teams
     .list({ max: 10 })

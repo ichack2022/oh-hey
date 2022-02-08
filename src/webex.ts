@@ -1,3 +1,4 @@
+import { AuthProvider } from "./auth-provider";
 import { LocalStorageService } from "./localStorage";
 import * as vscode from "vscode";
 import { displayMessage } from "./message";
@@ -9,8 +10,11 @@ const Webex = require(`webex`);
 
 let webex: any | undefined = undefined;
 
-export function getWebex(storageManager: LocalStorageService) {
-  let at = getAccessToken(storageManager);
+export function getWebex(
+  storageManager: LocalStorageService,
+  authProvider: AuthProvider
+) {
+  let at = getAccessToken(storageManager, authProvider);
   const listening = webex !== undefined;
   webex = Webex.init({
     credentials: {
@@ -41,19 +45,18 @@ export function getWebex(storageManager: LocalStorageService) {
   return webex;
 }
 
-function getAccessToken(storageManager: LocalStorageService): string {
+function getAccessToken(
+  storageManager: LocalStorageService,
+  authProvider: AuthProvider
+): string {
   let accessToken: string = storageManager.getValue("access_token");
 
-  const authorizationURL =
-    "https://webexapis.com/v1/authorize?client_id=C8609770741382a6add794423a26f06154db2ae0f6e256b6c33a8a873d7ddc0c1&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000&scope=spark-admin%3Aworkspaces_write%20spark%3Acalls_write%20spark-admin%3Aresource_groups_read%20spark%3Aall%20spark%3Akms%20Identity%3Aone_time_password%20spark-admin%3Aroles_read%20identity%3Atokens_write%20identity%3Atokens_read&state=set_state_here";
-  const authenticationURL = "https://api.ciscospark.com/v1/access_token";
-
   if (accessToken === null) {
-    vscode.env.openExternal(vscode.Uri.parse(authorizationURL));
+    vscode.env.openExternal(vscode.Uri.parse(authProvider.authorizationURL));
     app.get("/", async (req: any, res: any) => {
       const options = {
         method: "POST",
-        url: authenticationURL,
+        url: authProvider.authenticationURL,
         headers: {
           "content-type": "application/x-www-form-urlencoded",
         },
@@ -67,6 +70,7 @@ function getAccessToken(storageManager: LocalStorageService): string {
           redirect_uri: "http://localhost:8000",
         },
       };
+
       request(options, (error: any, response: any, body: any) => {
         const json = JSON.parse(body);
         accessToken = json.access_token;

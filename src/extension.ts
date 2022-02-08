@@ -4,6 +4,7 @@ import { addConsoleLog, MyCodeLensProvider, recievedRepliesBox } from "./ui";
 
 import { LocalStorageService } from "./localStorage";
 import { getWebex } from "./webex";
+import webexAuth from "./auth-provider";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -21,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   let webex: any = undefined;
   let login = vscode.commands.registerCommand("vscode-messages.webexLogin", () => {
-    webex = getWebex(storageManager);
+    webex = getWebex(storageManager, webexAuth);
     vscode.window.showInformationMessage("Succesfully logged in with Cisco Webex!");
   });
 
