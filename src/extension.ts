@@ -13,21 +13,34 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
-  console.log('Congratulations, your extension "vscode-messages" is now active!');
+  console.log(
+    'Congratulations, your extension "vscode-messages" is now active!'
+  );
 
-  let regularMessage = vscode.commands.registerCommand("vscode-messages.sendRegularMessage", () => {
-  });
+  let regularMessage = vscode.commands.registerCommand(
+    "vscode-messages.sendRegularMessage",
+    () => {}
+  );
 
-  let consoleLogMessage = vscode.commands.registerCommand("vscode-messages.addConsoleLog", addConsoleLog);
+  let consoleLogMessage = vscode.commands.registerCommand(
+    "vscode-messages.addConsoleLog",
+    addConsoleLog
+  );
 
   let webex: any = undefined;
-  let login = vscode.commands.registerCommand("vscode-messages.webexLogin", () => {
-    webex = getWebex(storageManager, webexAuth);
-    vscode.window.showInformationMessage("Succesfully logged in with Cisco Webex!");
-  });
+  let login = vscode.commands.registerCommand(
+    "vscode-messages.webexLogin",
+    () => {
+      webex = getWebex(storageManager, webexAuth);
+      vscode.window.showInformationMessage(
+        "Succesfully logged in with Cisco Webex!"
+      );
+    }
+  );
 
-  let codeMessage = vscode.commands.registerCommand("vscode-messages.sendCodeMessage", () =>
-    sendCodeMessage(storageManager)
+  let codeMessage = vscode.commands.registerCommand(
+    "vscode-messages.sendCodeMessage",
+    () => sendCodeMessage(storageManager)
   );
 
   let logout = vscode.commands.registerCommand("vscode-messages.logOut", () =>
@@ -39,7 +52,10 @@ export function activate(context: vscode.ExtensionContext) {
     scheme: "file",
   };
 
-  vscode.languages.registerCodeLensProvider(docSelector, new MyCodeLensProvider());
+  vscode.languages.registerCodeLensProvider(
+    docSelector,
+    new MyCodeLensProvider()
+  );
 
   context.subscriptions.push(consoleLogMessage);
   context.subscriptions.push(codeMessage);
@@ -49,4 +65,4 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() { }
+export function deactivate() {}
