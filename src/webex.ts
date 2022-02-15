@@ -15,12 +15,12 @@ export function getWebex(
   authProvider: AuthProvider
 ) {
   let at = getAccessToken(storageManager, authProvider);
-  const listening = webex !== undefined;
   webex = Webex.init({
     credentials: {
       access_token: at,
     },
   });
+  const listening = webex !== undefined;
 
   if (!listening) {
     console.log("listening");

@@ -33,7 +33,10 @@ export function activate(context: vscode.ExtensionContext) {
     "vscode-messages.login",
     async () => {
       authObject = await login();
-      // TODO: UPDATE THIS PART TO BE GENERAL, MAYBE US AN ADAPTER OF SOME SORT?
+      //* TODO: UPDATE THIS PART TO BE GENERAL
+      //* 1. MAYBE US AN ADAPTER OF SOME SORT?
+      //* 2. MAYBE UPDATE AuthProvider type to have getWebex method?
+      
       webex = getWebex(storageManager, authObject);
       vscode.window.showInformationMessage(
         `Succesfully logged in with ${authObject.label}!`
