@@ -14,7 +14,7 @@
     "onCommand:vscode-messages.addConsoleLog",
     "onCommand:vscode-messages.sendCodeMessage",
     "onCommand:vscode-messages.sendRegularMessage",
-    "onCommand:vscode-messages.webexLogin",
+    "onCommand:vscode-messages.login",
     "onCommand:vscode-messages.logOut",
     "onLanguage:javascript"
   ],
@@ -39,12 +39,12 @@
         "title": "Regular message"
       },
       {
-        "command": "vscode-messages.webexLogin",
-        "title": "Login with Cisco Webex"
+        "command": "vscode-messages.login",
+        "title": "Log in to Oh-Hey!"
       },
       {
         "command": "vscode-messages.logOut",
-        "title": "Log out of Cisco Webex"
+        "title": "Log out of Oh-Hey!"
       }
     ],
     "keybindings": [

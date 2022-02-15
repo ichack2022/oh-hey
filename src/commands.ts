@@ -5,9 +5,12 @@ import { getWebex } from "./webex";
 import path = require("path");
 import { getRoot } from "./git";
 import { QuickSelectItem, quickSelectBox, getInputBox } from "./ui";
-import webexAuth from "./auth-provider";
+import { AuthProvider } from "./auth";
 
-export async function sendCodeMessage(storeManager: LocalStorageService) {
+export async function sendCodeMessage(
+  storeManager: LocalStorageService,
+  authProvider: AuthProvider
+) {
   let editor = vscode.window.activeTextEditor;
   if (!editor) {
     return; // No open text editor
@@ -34,7 +37,7 @@ export async function sendCodeMessage(storeManager: LocalStorageService) {
     `The author of this line is: ${authors}`
   );
 
-  let webex = getWebex(storeManager, webexAuth);
+  let webex = getWebex(storeManager, authProvider);
 
   webex.teams
     .list({ max: 10 })

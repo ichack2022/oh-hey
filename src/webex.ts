@@ -1,4 +1,4 @@
-import { AuthProvider } from "./auth-provider";
+import { AuthProvider } from "./auth";
 import { LocalStorageService } from "./localStorage";
 import * as vscode from "vscode";
 import { displayMessage } from "./message";

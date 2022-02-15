@@ -4,7 +4,7 @@ import { addConsoleLog, MyCodeLensProvider, recievedRepliesBox } from "./ui";
 
 import { LocalStorageService } from "./localStorage";
 import { getWebex } from "./webex";
-import webexAuth from "./auth-provider";
+import webexAuth, { login } from "./auth";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -28,9 +28,10 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   let webex: any = undefined;
-  let login = vscode.commands.registerCommand(
-    "vscode-messages.webexLogin",
+  let loginCmd = vscode.commands.registerCommand(
+    "vscode-messages.login",
     () => {
+      // login();
       webex = getWebex(storageManager, webexAuth);
       vscode.window.showInformationMessage(
         "Succesfully logged in with Cisco Webex!"
@@ -40,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   let codeMessage = vscode.commands.registerCommand(
     "vscode-messages.sendCodeMessage",
-    () => sendCodeMessage(storageManager)
+    () => sendCodeMessage(storageManager, webexAuth)
   );
 
   let logout = vscode.commands.registerCommand("vscode-messages.logOut", () =>
@@ -60,7 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(consoleLogMessage);
   context.subscriptions.push(codeMessage);
   context.subscriptions.push(regularMessage);
-  context.subscriptions.push(login);
+  context.subscriptions.push(loginCmd);
   context.subscriptions.push(logout);
 }
 
