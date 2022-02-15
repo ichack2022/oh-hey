@@ -2,9 +2,9 @@ import { quickSelectBox, QuickSelectItem } from "./ui";
 import * as vscode from "vscode";
 
 export interface AuthProvider {
-  authorizationURL: string;
-  authenticationURL: string;
-  label: string;
+  readonly authorizationURL: string;
+  readonly authenticationURL: string;
+  readonly label: string;
 }
 
 const webexAuth: AuthProvider = {
@@ -23,9 +23,11 @@ const teamsAuth: AuthProvider = {
 export const authProviders: AuthProvider[] = [webexAuth, teamsAuth];
 
 export async function login() {
-  const loginSelectItems: QuickSelectItem<AuthProvider>[] = authProviders.map((ap) => {
-    return new QuickSelectItem(ap.label, "", ap);
-  });
+  const loginSelectItems: QuickSelectItem<AuthProvider>[] = authProviders.map(
+    (ap) => {
+      return new QuickSelectItem(ap.label, "", ap);
+    }
+  );
 
   const selectedLoginOpt = await quickSelectBox<AuthProvider>(
     "Please choose a login option",
