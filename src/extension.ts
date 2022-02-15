@@ -4,7 +4,7 @@ import { addConsoleLog, MyCodeLensProvider, recievedRepliesBox } from "./ui";
 
 import { LocalStorageService } from "./localStorage";
 import { getWebex } from "./webex";
-import webexAuth, { login } from "./auth";
+import webexAuth, { AuthProvider, login } from "./auth";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -27,15 +27,16 @@ export function activate(context: vscode.ExtensionContext) {
     addConsoleLog
   );
 
-  // let authObject: any = undefined;
+  let authObject: AuthProvider | undefined = undefined;
   let webex: any = undefined;
   let loginCmd = vscode.commands.registerCommand(
     "vscode-messages.login",
     async () => {
-      // authObject = await login();
-      webex = getWebex(storageManager, webexAuth);
+      authObject = await login();
+      // TODO: UPDATE THIS PART TO BE GENERAL, MAYBE US AN ADAPTER OF SOME SORT?
+      webex = getWebex(storageManager, authObject);
       vscode.window.showInformationMessage(
-        "Succesfully logged in with Cisco Webex!"
+        `Succesfully logged in with ${authObject.label}!`
       );
     }
   );
@@ -45,9 +46,10 @@ export function activate(context: vscode.ExtensionContext) {
     () => sendCodeMessage(storageManager, webexAuth)
   );
 
-  let logout = vscode.commands.registerCommand("vscode-messages.logOut", () =>
-    storageManager.removeValue("access_token")
-  );
+  let logout = vscode.commands.registerCommand("vscode-messages.logOut", () => {
+    storageManager.removeValue("access_token");
+    vscode.window.showInformationMessage("Succefully logged out of OH-HEY!");
+  });
 
   let docSelector = {
     language: "javascript",
