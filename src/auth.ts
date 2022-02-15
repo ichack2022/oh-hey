@@ -1,4 +1,5 @@
 import { quickSelectBox, QuickSelectItem } from "./ui";
+import * as vscode from "vscode";
 
 export interface AuthProvider {
   authorizationURL: string;
@@ -14,7 +15,7 @@ const webexAuth: AuthProvider = {
 };
 
 const teamsAuth: AuthProvider = {
-  label: "Cisco Webex",
+  label: "MS Teams",
   authorizationURL: "TODO",
   authenticationURL: "TODO",
 };
@@ -22,16 +23,21 @@ const teamsAuth: AuthProvider = {
 export const authProviders: AuthProvider[] = [webexAuth, teamsAuth];
 
 export async function login() {
-  const loginSelectItems: QuickSelectItem[] = authProviders.map((ap) => {
+  const loginSelectItems: QuickSelectItem<AuthProvider>[] = authProviders.map((ap) => {
     return new QuickSelectItem(ap.label, "", ap);
   });
 
-  const selectedLoginOpt = await quickSelectBox(
+  const selectedLoginOpt = await quickSelectBox<AuthProvider>(
     "Please choose a login option",
     loginSelectItems
   );
 
-  console.log(selectedLoginOpt);
+  if (selectedLoginOpt.label !== "Cisco Webex") {
+    vscode.window.showErrorMessage("SUPPORT COMING SOON!");
+    return webexAuth;
+  }
+
+  return selectedLoginOpt;
 }
 
 export default webexAuth;

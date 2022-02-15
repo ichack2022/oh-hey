@@ -14,20 +14,20 @@ export async function getInputBox(
 }
 
 // Takes in a list of Quick Select items and a placeholder, retunrs the chosen Quick Select object
-export class QuickSelectItem {
+export class QuickSelectItem<T> {
   label: string;
   description: string;
-  returnObj: any;
+  returnObj: T;
   constructor(label: string, description: string, returnObj: any) {
     this.label = label;
     this.description = description;
     this.returnObj = returnObj;
   }
 }
-export async function quickSelectBox(
+export async function quickSelectBox<T>(
   message: string,
-  items: QuickSelectItem[]
-): Promise<any> {
+  items: QuickSelectItem<T>[]
+): Promise<T> {
   const res = await vscode.window.showQuickPick(items, {
     placeHolder: message,
   });

@@ -27,11 +27,12 @@ export function activate(context: vscode.ExtensionContext) {
     addConsoleLog
   );
 
+  // let authObject: any = undefined;
   let webex: any = undefined;
   let loginCmd = vscode.commands.registerCommand(
     "vscode-messages.login",
-    () => {
-      // login();
+    async () => {
+      // authObject = await login();
       webex = getWebex(storageManager, webexAuth);
       vscode.window.showInformationMessage(
         "Succesfully logged in with Cisco Webex!"

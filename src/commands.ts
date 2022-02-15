@@ -95,11 +95,14 @@ export async function sendCodeMessage(
       const medium = "MEDIUM";
       const low = "LOW";
 
-      const priority = await quickSelectBox("What is the message priority?", [
-        new QuickSelectItem(high, "", high),
-        new QuickSelectItem(medium, "", medium),
-        new QuickSelectItem(low, "", low),
-      ]);
+      const priority = await quickSelectBox<string>(
+        "What is the message priority?",
+        [
+          new QuickSelectItem<string>(high, "", high),
+          new QuickSelectItem<string>(medium, "", medium),
+          new QuickSelectItem<string>(low, "", low),
+        ]
+      );
 
       const questionPrompt =
         "Hey, I don't understand this piece of code. Can you help me?";
@@ -108,7 +111,7 @@ export async function sendCodeMessage(
         "Hey, I am having errors with this piece of code. Can you help me?";
       const customPrompt = "Write your message header";
 
-      const selectedText = await quickSelectBox(
+      const selectedText = await quickSelectBox<string>(
         "What would you like to send in the message",
         [
           new QuickSelectItem("Question", questionPrompt, questionPrompt),
