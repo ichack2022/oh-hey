@@ -54,26 +54,17 @@ function getAccessToken(
   if (accessToken === null) {
     vscode.env.openExternal(vscode.Uri.parse(authProvider.authorizationURL));
     app.get("/", async (req: any, res: any) => {
-      const options = {
+      const authenticationPayload = {
         method: "POST",
         url: authProvider.authenticationURL,
         headers: {
           "content-type": "application/x-www-form-urlencoded",
         },
 
-        // TODO!: UPDATE BEOFRE MAKING REPO PUBLIC
-        form: {
-          grant_type: "authorization_code",
-          client_id:
-            "C8609770741382a6add794423a26f06154db2ae0f6e256b6c33a8a873d7ddc0c1",
-          client_secret:
-            "728b1bfae38f8ded8cc6160bc777f53f1dbf57b85be2fb592942ade5f403166a",
-          code: req.query.code,
-          redirect_uri: "http://localhost:8000",
-        },
+        form: authProvider.authenticationPayload(),
       };
 
-      request(options, (error: any, response: any, body: any) => {
+      request(authenticationPayload, (error: any, response: any, body: any) => {
         const json = JSON.parse(body);
         accessToken = json.access_token;
         storageManager.setValue("access_token", accessToken);

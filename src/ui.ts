@@ -13,7 +13,7 @@ export async function getInputBox(
   return res ?? "";
 }
 
-// Takes in a list of Quick Select items and a placeholder, retunrs the chosen Quick Select object
+// Takes in a list of Quick Select items and a placeholder, returns the chosen Quick Select object
 export class QuickSelectItem<T> {
   label: string;
   description: string;
