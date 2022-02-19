@@ -54,7 +54,7 @@ function getAccessToken(
   if (accessToken === null) {
     vscode.env.openExternal(vscode.Uri.parse(authProvider.authorizationURL));
     app.get("/", async (req: any, res: any) => {
-      const authenticationPayload = {
+      const reqOptions = {
         method: "POST",
         url: authProvider.authenticationURL,
         headers: {
@@ -64,7 +64,7 @@ function getAccessToken(
         form: authProvider.authenticationPayload(),
       };
 
-      request(authenticationPayload, (error: any, response: any, body: any) => {
+      request(reqOptions, (error: any, response: any, body: any) => {
         const json = JSON.parse(body);
         accessToken = json.access_token;
         storageManager.setValue("access_token", accessToken);
