@@ -25,4 +25,5 @@ package-lock.json
 
 *.vsix
 
-.vscode
+.vscode/*
+settings.json

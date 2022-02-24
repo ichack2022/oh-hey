@@ -25,8 +25,8 @@ async function parseMessage(event: any, webex: any): Promise<Message> {
   const person = await webex.people.get(event.actorId);
   const author = person.displayName;
 
-  console.log(rawText, rawText.indexOf("‌"));
-  const msg = rawText.slice(0, rawText.indexOf("‌"));
+  console.log(rawText, rawText.indexOf(""));
+  const msg = rawText.slice(0, rawText.indexOf(""));
   const priority = /Priority: (.*)/.exec(rawText)![1] as Priority;
   const lines = /Lines: ([0-9]*)-([0-9]*)/.exec(rawText)!;
   const start = parseInt(lines[1]);
