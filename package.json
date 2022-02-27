@@ -75,7 +75,6 @@
     "@types/glob": "^7.1.4",
     "@types/mocha": "^9.0.0",
     "@types/node": "^14.18.10",
-    "@types/request": "^2.48.8",
     "@types/vscode": "^1.64.0",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
@@ -87,7 +86,6 @@
   },
   "dependencies": {
     "express": "^4.17.2",
-    "request": "^2.88.2",
     "webex": "^1.154.0"
   }
 }

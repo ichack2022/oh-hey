@@ -2,7 +2,6 @@ import { LocalStorageService } from "./localStorage";
 import * as vscode from "vscode";
 import { displayMessage } from "./message";
 
-const request = require("request");
 const express = require("express");
 const app = express();
 const Webex = require(`webex`);
