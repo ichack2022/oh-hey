@@ -1,7 +1,7 @@
 {
-  "publisher": "ichack2022-16",
-  "name": "vscode-messages",
-  "displayName": "vscode-messages",
+  "publisher": "OhHey",
+  "name": "oh-hey",
+  "displayName": "Oh Hey!",
   "description": "Send messages to your co-workers",
   "version": "0.0.1",
   "engines": {
